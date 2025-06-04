@@ -1,1 +1,149 @@
+/* style.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #00bcd4;
+}
+
+a {
+    color: #00bcd4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #81d4fa;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 188, 212, 0.2);
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li {
+    background: #272727;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    border-radius: 6px;
+    box-shadow: 0 3px 7px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.file-description {
+    margin-top: 5px;
+    color: #bbbbbb;
+    font-size: 0.9rem;
+}
+
+.download-link {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.rating {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    background: #00bcd4;
+    border: none;
+    padding: 6px 12px;
+    color: #121212;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #81d4fa;
+}
+
+/* Upload form styles */
+
+form.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+input[type="file"]:focus {
+    outline: 2px solid #00bcd4;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.submit-btn {
+    align-self: flex-start;
+    background: #00bcd4;
+    color: #121212;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #81d4fa;
+}
+
+/* Link at the top */
+
+.top-link {
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
 
