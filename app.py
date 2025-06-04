@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from functools import wraps
-from db import init_db, get_all_files, insert_file, rate_file, get_user_by_username, insert_user
+import db
 
 app = Flask(__name__)
 app.secret_key = 'whatasecretidkwestkey132'  
