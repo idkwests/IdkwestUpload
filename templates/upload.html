@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>File Gallery</title>
+    <title>Upload File</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Uploaded Files</h1>
-
-    {% if logged_in %}
-        <p>Welcome, {{ session.username }}! <a href="{{ url_for('logout') }}">Logout</a> | <a href="{{ url_for('upload') }}">Upload a new file</a></p>
-    {% else %}
-        <p><a href="{{ url_for('login') }}">Login</a> or <a href="{{ url_for('register') }}">Register</a> to upload/download files.</p>
-    {% endif %}
-
-    <ul>
-        {% for file in files %}
-        <li>
-            <strong>{{ file['title'] }}</strong> — {{ file['description'] }}<br>
-            Uploaded by: {{ file['uploader'] or "Unknown" }}<br>
-            {% if logged_in %}
-                <a href="{{ file['download_url'] }}" target="_blank">Download</a><br>
-                Rating: {{ file['rating'] }}
-                <form action="{{ url_for('rate', file_id=file['id']) }}" method="post" style="display:inline;">
-                    <button type="submit">Rate +1</button>
-                </form>
-            {% else %}
-                <em>Login to download and rate files.</em>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-
+    <h1>Upload a New File</h1>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="upload-form">
+        <label>Title: <input type="text" name="title" required></label><br>
+        <label>Description: <textarea name="description"></textarea></label><br>
+        <label>File: <input type="file" name="file" required></label><br>
+        <button type="submit" class="btn">Upload</button>
+    </form>
+    <br>
+    <a href="{{ url_for('index') }}">Back to list</a>
 </body>
 </html>
+
