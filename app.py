@@ -140,3 +140,12 @@ def rate(file_id):
 def inject_user():
     return dict(logged_in=('user_id' in session))
 
+@app.route('/account')
+@login_required
+def account():
+    user_id = session['user_id']
+    user = db.get_user_by_id(user_id)
+    files = db.get_user_files(user_id)
+    return render_template('account.html', user=user, files=files)
+
+
