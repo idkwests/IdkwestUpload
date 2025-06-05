@@ -1,149 +1,164 @@
-/* style.css */
+:root {
+    --primary-color: #00bcd4;
+    --primary-hover: #81d4fa;
+    --bg-dark: #121212;
+    --bg-medium: #1e1e1e;
+    --bg-light: #272727;
+    --text-main: #e0e0e0;
+    --text-muted: #bbbbbb;
+    --shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
+    --border-radius: 10px;
+    --transition: 0.3s ease;
+}
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #121212;
-    color: #e0e0e0;
+    background: var(--bg-dark);
+    color: var(--text-main);
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
 h1 {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 50px;
     font-weight: 700;
-    font-size: 2.5rem;
-    color: #00bcd4;
+    font-size: 3rem;
+    color: var(--primary-color);
+    text-shadow: 0 2px 10px rgba(0, 188, 212, 0.2);
 }
 
 a {
-    color: #00bcd4;
+    color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color var(--transition);
 }
 
 a:hover {
-    color: #81d4fa;
+    color: var(--primary-hover);
 }
 
 .container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #1e1e1e;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 188, 212, 0.2);
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--bg-medium);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 
 ul {
     list-style: none;
     padding-left: 0;
+    margin: 0;
 }
 
 li {
-    background: #272727;
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    border-radius: 6px;
-    box-shadow: 0 3px 7px rgba(0,0,0,0.4);
-    display: flex;
-    flex-direction: column;
+    background: var(--bg-light);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
 }
 
 .file-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .file-title {
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 .file-description {
-    margin-top: 5px;
-    color: #bbbbbb;
-    font-size: 0.9rem;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 1rem;
 }
 
 .download-link {
-    margin-top: 10px;
+    margin-top: 12px;
     font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .rating {
-    margin-top: 10px;
+    margin-top: 12px;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-button {
-    background: #00bcd4;
+button,
+.submit-btn {
+    background: var(--primary-color);
     border: none;
-    padding: 6px 12px;
-    color: #121212;
+    padding: 10px 18px;
+    color: var(--bg-dark);
     font-weight: 700;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition), transform var(--transition);
+    font-size: 1rem;
 }
 
-button:hover {
-    background: #81d4fa;
+button:hover,
+.submit-btn:hover {
+    background: var(--primary-hover);
+    transform: scale(1.03);
 }
-
-/* Upload form styles */
 
 form.upload-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
+    margin-top: 30px;
 }
 
 input[type="text"],
 textarea,
 input[type="file"] {
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     border: none;
     font-size: 1rem;
+    background: #2d2d2d;
+    color: var(--text-main);
+    transition: outline var(--transition), background var(--transition);
 }
 
 input[type="text"]:focus,
 textarea:focus,
 input[type="file"]:focus {
-    outline: 2px solid #00bcd4;
+    outline: 2px solid var(--primary-color);
+    background: #333;
 }
 
 textarea {
     resize: vertical;
-    min-height: 60px;
+    min-height: 80px;
 }
-
-.submit-btn {
-    align-self: flex-start;
-    background: #00bcd4;
-    color: #121212;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 6px;
-    border: none;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease;
-}
-
-.submit-btn:hover {
-    background: #81d4fa;
-}
-
-/* Link at the top */
 
 .top-link {
     display: block;
     text-align: center;
     margin-bottom: 30px;
     font-weight: 600;
+    font-size: 1.1rem;
+    padding-top: 20px;
+    color: var(--primary-color);
 }
 
+.top-link:hover {
+    color: var(--primary-hover);
+}
