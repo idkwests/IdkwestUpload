@@ -8,6 +8,8 @@ from googleapiclient.http import MediaFileUpload
 from functools import wraps
 import db
 
+db.init_db()
+
 app = Flask(__name__)
 app.secret_key = 'whatasecretidkwestkey132'  
 
@@ -140,7 +142,6 @@ def inject_user():
 
 # //// Run ////
 if __name__ == '__main__':
-    db.init_db()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
 
