@@ -4,49 +4,69 @@
     --bg-dark: #121212;
     --bg-medium: #1e1e1e;
     --bg-light: #272727;
+    --glass-bg: rgba(39, 39, 39, 0.6);
+    --glass-blur: blur(10px);
     --text-main: #e0e0e0;
     --text-muted: #bbbbbb;
-    --shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
     --border-radius: 12px;
     --transition: 0.3s ease-in-out;
-    --focus-outline: 2px solid var(--primary-color);
+    --shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-dark);
+    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
     color: var(--text-main);
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    animation: fadeIn 1s ease-out;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 h1 {
     text-align: center;
     margin: 60px 0 30px;
-    font-weight: 700;
+    font-weight: 800;
     font-size: 3rem;
     color: var(--primary-color);
-    text-shadow: 0 2px 12px rgba(0, 188, 212, 0.25);
+    text-shadow: 0 2px 14px rgba(0, 188, 212, 0.3);
 }
 
 a {
+    position: relative;
     color: var(--primary-color);
     text-decoration: none;
     transition: color var(--transition);
 }
 
-a:hover {
-    color: var(--primary-hover);
+a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-hover);
+    transition: width 0.3s ease;
 }
 
-/*================ bob ================= */
+a:hover::after {
+    width: 100%;
+}
+
 .container {
-    max-width: 1000px;
+    max-width: 960px;
     margin: 40px auto;
     padding: 40px;
-    background-color: var(--bg-medium);
+    background: var(--glass-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+    backdrop-filter: var(--glass-blur);
 }
 
 ul {
@@ -56,18 +76,20 @@ ul {
 }
 
 li {
-    background-color: var(--bg-light);
+    background: var(--bg-light);
     margin-bottom: 24px;
     padding: 24px;
     border-radius: var(--border-radius);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
     transition: transform var(--transition), box-shadow var(--transition);
+    animation: fadeIn 0.6s ease-out;
 }
 
 li:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
+
 .file-header {
     display: flex;
     justify-content: space-between;
@@ -77,7 +99,7 @@ li:hover {
 
 .file-title {
     font-weight: 700;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
 }
 
 .file-description {
@@ -91,6 +113,7 @@ li:hover {
     font-weight: 600;
     font-size: 1rem;
 }
+
 .rating {
     margin-top: 14px;
     display: flex;
@@ -100,28 +123,30 @@ li:hover {
 
 button,
 .submit-btn {
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     border: none;
-    padding: 12px 20px;
+    padding: 12px 22px;
     color: var(--bg-dark);
     font-weight: 700;
-    border-radius: 8px;
-    cursor: pointer;
+    border-radius: 10px;
     font-size: 1rem;
-    transition: background-color var(--transition), transform var(--transition), box-shadow var(--transition);
-    box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+    cursor: pointer;
+    transition: all var(--transition);
+    box-shadow: 0 4px 14px rgba(0, 188, 212, 0.2);
 }
+
 button:hover,
 .submit-btn:hover {
-    background-color: var(--primary-hover);
-    transform: scale(1.04);
-    box-shadow: 0 6px 18px rgba(0, 188, 212, 0.3);
+    background: var(--primary-hover);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.35);
 }
+
 form.upload-form {
     display: flex;
     flex-direction: column;
     gap: 18px;
-    margin-top: 36px;
+    margin-top: 40px;
 }
 
 input[type="text"],
@@ -129,33 +154,54 @@ textarea,
 input[type="file"] {
     padding: 14px;
     border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-    background-color: #2d2d2d;
+    border: 1px solid transparent;
+    background: #2d2d2d;
     color: var(--text-main);
-    transition: outline var(--transition), background-color var(--transition);
+    font-size: 1rem;
+    transition: border var(--transition), background var(--transition);
 }
 
 input[type="text"]:focus,
 textarea:focus,
 input[type="file"]:focus {
-    outline: var(--focus-outline);
-    background-color: #333;
+    border: 1px solid var(--primary-color);
+    background: #333;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
 }
 
 textarea {
     resize: vertical;
     min-height: 100px;
 }
+
 .top-link {
     display: block;
     text-align: center;
-    margin: 40px 0 30px;
+    margin: 50px 0 30px;
     font-weight: 600;
     font-size: 1.1rem;
     color: var(--primary-color);
+    transition: color var(--transition);
 }
 
 .top-link:hover {
     color: var(--primary-hover);
+}
+
+/* idk wth does this do i got this from my friend lmaoaoao*/
+@media (max-width: 768px) {
+    .file-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .container {
+        padding: 24px;
+        margin: 20px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
 }
