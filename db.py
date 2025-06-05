@@ -69,3 +69,15 @@ def rate_file(file_id):
         c = conn.cursor()
         c.execute('UPDATE files SET rating = rating + 1 WHERE id = ?', (file_id,))
         conn.commit()
+
+def get_user_by_id(user_id):
+    with get_db_connection() as conn:
+        c = conn.cursor()
+        c.execute('SELECT * FROM users WHERE id = ?', (user_id,))
+        return c.fetchone()
+
+def get_user_files(user_id):
+    with get_db_connection() as conn:
+        c = conn.cursor()
+        c.execute('SELECT * FROM files WHERE uploader_id = ? ORDER BY id DESC', (user_id,))
+        return c.fetchall()
