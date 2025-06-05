@@ -1,43 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>File Gallery</title>
+    <meta charset="UTF-8">
+    <title>Useless Cloud</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Useless Cloud!</h1>
+        <h1>☁Useless Cloud</h1>
 
         {% if logged_in %}
-            <p>Welcome, {{ session.username }}! 
-                <a href="{{ url_for('logout') }}">Logout</a> | 
-                <a href="{{ url_for('upload') }}">Upload a new file</a>
-            </p>
+            <p class="welcome-msg">Welcome, <strong>{{ session.username }}</strong>!</p>
+            <div class="actions">
+                <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+                <a class="btn" href="{{ url_for('upload') }}">Upload File</a>
+            </div>
         {% else %}
-            <p>
-                <a href="{{ url_for('login') }}">Login</a> or 
-                <a href="{{ url_for('register') }}">Register</a> to upload/download files.
-            </p>
+            <div class="actions">
+                <a class="btn" href="{{ url_for('login') }}">Login</a>
+                <a class="btn" href="{{ url_for('register') }}">Register</a>
+            </div>
+            <p class="tip muted">Login or register to upload and download files.</p>
         {% endif %}
 
-        <ul>
-            {% for file in files %}
-            <li>
-                <strong>{{ file['title'] }}</strong> — {{ file['description'] }}<br>
-                Uploaded by: {{ file['uploader'] or "Unknown" }}<br>
-                {% if logged_in %}
-                    <a href="{{ file['download_url'] }}" target="_blank">Download</a><br>
-                    Rating: {{ file['rating'] }}
-                    <form action="{{ url_for('rate', file_id=file['id']) }}" method="post" style="display:inline;">
-                        <button type="submit">Rate +1</button>
-                    </form>
-                {% else %}
-                    <em>Login to download and rate files.</em>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
+        {% if files %}
+            <ul class="file-list">
+                {% for file in files %}
+                <li class="file-item">
+                    <div class="file-header">
+                        <h3>{{ file['title'] }}</h3>
+                        <p class="desc muted">{{ file['description'] }}</p>
+                        <p class="uploader">Uploaded by: <strong>{{ file['uploader'] or "Unknown" }}</strong></p>
+                    </div>
+
+                    {% if logged_in %}
+                        <a class="download-btn" href="{{ file['download_url'] }}" target="_blank">Download</a>
+                        <div class="rating">
+                            ⭐ {{ file['rating'] }}
+                            <form action="{{ url_for('rate', file_id=file['id']) }}" method="post">
+                                <button class="rate-btn" type="submit">+1</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <em class="muted">Login to download and rate files.</em>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No files uploaded yet.</p>
+        {% endif %}
     </div>
 </body>
 </html>
-
