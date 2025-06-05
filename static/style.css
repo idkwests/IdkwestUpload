@@ -1,207 +1,161 @@
 :root {
-    --primary-color: #00bcd4;
-    --primary-hover: #81d4fa;
-    --bg-dark: #121212;
-    --bg-medium: #1e1e1e;
-    --bg-light: #272727;
-    --glass-bg: rgba(39, 39, 39, 0.6);
-    --glass-blur: blur(10px);
-    --text-main: #e0e0e0;
-    --text-muted: #bbbbbb;
-    --border-radius: 12px;
-    --transition: 0.3s ease-in-out;
+    --primary: #00bcd4;
+    --hover: #81d4fa;
+    --dark: #121212;
+    --medium: #1e1e1e;
+    --light: #272727;
+    --text: #e0e0e0;
+    --muted: #999;
+    --radius: 10px;
     --shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
+    --transition: 0.3s ease;
 }
 
 body {
+    background: var(--dark);
+    color: var(--text);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
-    color: var(--text-main);
     margin: 0;
     padding: 0;
-    line-height: 1.6;
-    animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-h1 {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: center;
     text-align: center;
-    margin: 60px 0 30px;
-    font-weight: 800;
-    font-size: 3rem;
-    color: var(--primary-color);
-    text-shadow: 0 2px 14px rgba(0, 188, 212, 0.3);
-}
-
-a {
-    position: relative;
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color var(--transition);
-}
-
-a::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary-hover);
-    transition: width 0.3s ease;
-}
-
-a:hover::after {
-    width: 100%;
+    animation: fadeIn 1s ease-in;
 }
 
 .container {
-    max-width: 960px;
-    margin: 40px auto;
+    max-width: 900px;
+    width: 95%;
+    background: var(--medium);
     padding: 40px;
-    background: var(--glass-bg);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     box-shadow: var(--shadow);
-    backdrop-filter: var(--glass-blur);
 }
 
-ul {
+h1 {
+    font-size: 3rem;
+    color: var(--primary);
+    text-shadow: 0 2px 12px rgba(0, 188, 212, 0.2);
+    margin-bottom: 20px;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.btn {
+    background: var(--primary);
+    color: var(--dark);
+    font-weight: bold;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all var(--transition);
+    display: inline-block;
+}
+
+.btn:hover {
+    background: var(--hover);
+    transform: scale(1.05);
+}
+
+ul.file-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-li {
-    background: var(--bg-light);
-    margin-bottom: 24px;
-    padding: 24px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-    transition: transform var(--transition), box-shadow var(--transition);
-    animation: fadeIn 0.6s ease-out;
+.file-item {
+    background: var(--light);
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: var(--radius);
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: transform var(--transition);
 }
 
-li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+.file-item:hover {
+    transform: translateY(-4px);
 }
 
-.file-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.file-title {
-    font-weight: 700;
+.file-header h3 {
+    margin: 0;
     font-size: 1.5rem;
+    color: var(--primary);
 }
 
-.file-description {
-    margin-top: 10px;
-    color: var(--text-muted);
-    font-size: 1rem;
+.desc {
+    margin-top: 6px;
+    font-size: 0.95rem;
 }
 
-.download-link {
-    margin-top: 14px;
+.uploader {
+    font-size: 0.9rem;
+    margin-top: 8px;
+    color: var(--muted);
+}
+
+.download-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background: var(--primary);
+    color: var(--dark);
     font-weight: 600;
-    font-size: 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.download-btn:hover {
+    background: var(--hover);
+    transform: scale(1.05);
 }
 
 .rating {
     margin-top: 14px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
-button,
-.submit-btn {
-    background: var(--primary-color);
+.rate-btn {
+    padding: 6px 12px;
+    background: var(--hover);
     border: none;
-    padding: 12px 22px;
-    color: var(--bg-dark);
-    font-weight: 700;
-    border-radius: 10px;
-    font-size: 1rem;
+    color: var(--dark);
+    font-weight: bold;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all var(--transition);
-    box-shadow: 0 4px 14px rgba(0, 188, 212, 0.2);
+    transition: transform var(--transition);
 }
 
-button:hover,
-.submit-btn:hover {
-    background: var(--primary-hover);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.35);
+.rate-btn:hover {
+    transform: scale(1.1);
 }
 
-form.upload-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 40px;
+.muted {
+    color: var(--muted);
+    font-size: 0.95rem;
 }
 
-input[type="text"],
-textarea,
-input[type="file"] {
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    background: #2d2d2d;
-    color: var(--text-main);
-    font-size: 1rem;
-    transition: border var(--transition), background var(--transition);
-}
-
-input[type="text"]:focus,
-textarea:focus,
-input[type="file"]:focus {
-    border: 1px solid var(--primary-color);
-    background: #333;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
-}
-
-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.top-link {
-    display: block;
-    text-align: center;
-    margin: 50px 0 30px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--primary-color);
-    transition: color var(--transition);
-}
-
-.top-link:hover {
-    color: var(--primary-hover);
-}
-
-/* idk wth does this do i got this from my friend lmaoaoao*/
-@media (max-width: 768px) {
-    .file-header {
-        flex-direction: column;
-        align-items: flex-start;
+/* some anims ig */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
     }
-
-    .container {
-        padding: 24px;
-        margin: 20px;
-    }
-
-    h1 {
-        font-size: 2.2rem;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
+
