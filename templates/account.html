@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account placeholder?</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Account</h1>
+        <p><strong>Username:</strong> {{ user['username'] }}</p>
+        <p><a href="{{ url_for('logout') }}">Logout</a> | <a href="{{ url_for('upload') }}">Upload File</a> | <a href="{{ url_for('index') }}">Home</a></p>
+
+        <h2>Your Uploaded Files</h2>
+        {% if files %}
+            <ul>
+            {% for file in files %}
+                <li>
+                    <div class="file-header">
+                        <div class="file-title">{{ file['title'] }}</div>
+                        <div class="rating">⭐ {{ file['rating'] }}</div>
+                    </div>
+                    <div class="file-description">{{ file['description'] }}</div>
+                    <div class="download-link"><a href="{{ file['download_url'] }}" target="_blank">Download</a></div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>You haven’t uploaded anything yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
