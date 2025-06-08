@@ -1,11 +1,13 @@
-import sqlite3
+import os
+import psycopg2
+import psycopg2.extras
 from werkzeug.security import generate_password_hash, check_password_hash
 
-DB_NAME = 'files.db'
+DATABASE_URL = os.environ['postgresql://postgres:qcgGypPinACDSswRWLiKgGmKedfUEAcU@postgres.railway.internal:5432/railway']
 
 def get_db_connection():
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(DATABASE_URL)
+    conn.autocommit = True
     return conn
 
 def init_db():
@@ -13,49 +15,51 @@ def init_db():
         c = conn.cursor()
         c.execute('''
             CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 username TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL
             )
         ''')
         c.execute('''
             CREATE TABLE IF NOT EXISTS files (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
                 description TEXT,
                 download_url TEXT NOT NULL,
                 rating INTEGER DEFAULT 0,
-                uploader_id INTEGER,
-                FOREIGN KEY (uploader_id) REFERENCES users(id)
+                uploader_id INTEGER REFERENCES users(id)
             )
         ''')
-        conn.commit()
 
 def insert_user(username, password):
     password_hash = generate_password_hash(password)
     with get_db_connection() as conn:
         c = conn.cursor()
-        c.execute('INSERT INTO users (username, password_hash) VALUES (?, ?)', (username, password_hash))
-        conn.commit()
+        c.execute(
+            'INSERT INTO users (username, password_hash) VALUES (%s, %s)',
+            (username, password_hash)
+        )
 
 def get_user_by_username(username):
     with get_db_connection() as conn:
-        c = conn.cursor()
-        c.execute('SELECT * FROM users WHERE username = ?', (username,))
+        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        c.execute('SELECT * FROM users WHERE username = %s', (username,))
         return c.fetchone()
 
 def insert_file(title, description, download_url, uploader_id):
     with get_db_connection() as conn:
         c = conn.cursor()
-        c.execute('''
+        c.execute(
+            '''
             INSERT INTO files (title, description, download_url, uploader_id)
-            VALUES (?, ?, ?, ?)
-        ''', (title, description, download_url, uploader_id))
-        conn.commit()
+            VALUES (%s, %s, %s, %s)
+            ''',
+            (title, description, download_url, uploader_id)
+        )
 
 def get_all_files():
     with get_db_connection() as conn:
-        c = conn.cursor()
+        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         c.execute('''
             SELECT files.*, users.username AS uploader
             FROM files
@@ -67,17 +71,19 @@ def get_all_files():
 def rate_file(file_id):
     with get_db_connection() as conn:
         c = conn.cursor()
-        c.execute('UPDATE files SET rating = rating + 1 WHERE id = ?', (file_id,))
-        conn.commit()
+        c.execute('UPDATE files SET rating = rating + 1 WHERE id = %s', (file_id,))
 
 def get_user_by_id(user_id):
     with get_db_connection() as conn:
-        c = conn.cursor()
-        c.execute('SELECT * FROM users WHERE id = ?', (user_id,))
+        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        c.execute('SELECT * FROM users WHERE id = %s', (user_id,))
         return c.fetchone()
 
 def get_user_files(user_id):
     with get_db_connection() as conn:
-        c = conn.cursor()
-        c.execute('SELECT * FROM files WHERE uploader_id = ? ORDER BY id DESC', (user_id,))
+        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        c.execute(
+            'SELECT * FROM files WHERE uploader_id = %s ORDER BY id DESC',
+            (user_id,)
+        )
         return c.fetchall()
