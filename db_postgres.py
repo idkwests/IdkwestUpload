@@ -3,7 +3,7 @@ import psycopg2
 import psycopg2.extras
 from werkzeug.security import generate_password_hash, check_password_hash
 
-DATABASE_URL = os.environ['postgresql://postgres:qcgGypPinACDSswRWLiKgGmKedfUEAcU@postgres.railway.internal:5432/railway']
+DATABASE_URL = os.environ['DATABASE_URL']
 
 def get_db_connection():
     conn = psycopg2.connect(DATABASE_URL)
