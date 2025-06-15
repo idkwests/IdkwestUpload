@@ -21,7 +21,7 @@
 
                     {% if logged_in %}
                         {% if file['is_private'] %}
-                            <form action="{{ url_for('download_protected', file_id=file['id']) }}" method="post" style="display:inline;">
+                            <form action="{{ url_for('download', file_id=file['id']) }}" method="post" style="display:inline;">
                                 <input type="password" name="password" placeholder="Enter password" required>
                                 <button class="download-btn" type="submit">Unlock & Download</button>
                             </form>
@@ -47,5 +47,3 @@
     </div>
 </body>
 </html>
-
-
