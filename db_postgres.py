@@ -15,6 +15,7 @@ def get_db_connection():
 def init_db():
     with get_db_connection() as conn:
         c = conn.cursor()
+        # Existing table creation code...
         c.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -29,11 +30,12 @@ def init_db():
                 description TEXT,
                 download_url TEXT NOT NULL,
                 rating INTEGER DEFAULT 0,
-                uploader_id INTEGER REFERENCES users(id),
-                is_private BOOLEAN DEFAULT FALSE,
-                password_hash TEXT
+                uploader_id INTEGER REFERENCES users(id)
             )
         ''')
+        # Run migration for new columns
+        c.execute("ALTER TABLE files ADD COLUMN IF NOT EXISTS is_private BOOLEAN DEFAULT FALSE")
+        c.execute("ALTER TABLE files ADD COLUMN IF NOT EXISTS password_hash TEXT")
 
 # Insert a new user
 def insert_user(username, password):
