@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import os, tempfile, json
 from werkzeug.utils import secure_filename
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
@@ -11,9 +11,9 @@ import db_postgres as db
 db.init_db()
 
 app = Flask(__name__)
-app.secret_key = 'whatasecretidkwestkey132'  
+app.secret_key = 'whatasecretidkwestkey132'
 
-# //// Auth Decorator ////
+# ---- Decorators ----
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -23,17 +23,16 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# //// Google Drive Setup ////
+# ---- Google Drive Setup ----
 with open('credentials.json') as f:
     creds_json = json.load(f)
-
 creds = service_account.Credentials.from_service_account_info(creds_json)
 drive_service = build('drive', 'v3', credentials=creds)
 
-# //// Routes ////
+# ---- Routes ----
 @app.route('/')
 def index():
-    files = db.get_all_files()
+    files = db.get_all_files_with_usernames()
     return render_template('index.html', files=files)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -89,6 +88,8 @@ def upload():
         title = request.form['title']
         description = request.form['description']
         file = request.files['file']
+        is_private = request.form.get('is_private') == 'on'
+        password = request.form.get('password') if is_private else None
 
         if not file or file.filename == '':
             flash('No file selected.')
@@ -114,11 +115,11 @@ def upload():
             ).execute()
 
             download_url = f"https://drive.google.com/uc?id={file_id}&export=download"
+            password_hash = generate_password_hash(password) if password else None
 
-            db.insert_file(title, description, download_url, session['user_id'])
+            db.insert_file(title, description, download_url, session['user_id'], is_private, password_hash)
 
             flash('File uploaded successfully.')
-
         finally:
             try:
                 os.remove(temp_path)
@@ -129,16 +130,30 @@ def upload():
 
     return render_template('upload.html')
 
+@app.route('/download/<int:file_id>', methods=['GET', 'POST'])
+def download(file_id):
+    file = db.get_file_by_id(file_id)
+    if not file:
+        flash("File not found.")
+        return redirect(url_for('index'))
+
+    if file['is_private']:
+        if request.method == 'POST':
+            password = request.form['password']
+            if check_password_hash(file['password_hash'], password):
+                return redirect(file['url'])
+            else:
+                flash("Incorrect password.")
+        return render_template('password_prompt.html', file=file)
+
+    return redirect(file['url'])
+
 @app.route('/rate/<int:file_id>', methods=['POST'])
 @login_required
 def rate(file_id):
     db.rate_file(file_id)
     flash('Thanks for your rating!')
     return redirect(url_for('index'))
-
-@app.context_processor
-def inject_user():
-    return dict(logged_in=('user_id' in session))
 
 @app.route('/account')
 @login_required
@@ -148,4 +163,6 @@ def account():
     files = db.get_user_files(user_id)
     return render_template('account.html', user=user, files=files)
 
-
+@app.context_processor
+def inject_user():
+    return dict(logged_in=('user_id' in session))
