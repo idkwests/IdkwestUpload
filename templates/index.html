@@ -35,7 +35,14 @@
                     </div>
 
                     {% if logged_in %}
-                        <a class="download-btn" href="{{ file['download_url'] }}" target="_blank">Download</a>
+                        {% if file['is_private'] %}
+                            <form action="{{ url_for('download_protected', file_id=file['id']) }}" method="post">
+                                <input type="password" name="password" placeholder="Enter password" required>
+                                <button class="download-btn" type="submit">Unlock</button>
+                            </form>
+                        {% else %}
+                            <a class="download-btn" href="{{ file['download_url'] }}" target="_blank">Download</a>
+                        {% endif %}
                         <div class="rating">
                             ⭐ {{ file['rating'] }}
                             <form action="{{ url_for('rate', file_id=file['id']) }}" method="post">
@@ -54,3 +61,4 @@
     </div>
 </body>
 </html>
+
