@@ -9,21 +9,6 @@
     <div class="container">
         <h1>Useless Cloud</h1>
 
-        {% if logged_in %}
-            <p class="welcome-msg">Welcome, <strong>{{ session.username }}</strong>!</p>
-            <div class="actions">
-                <a class="btn" href="{{ url_for('logout') }}">Logout</a>
-                <a class="btn" href="{{ url_for('upload') }}">Upload File</a>
-                <a class="btn" href="{{ url_for('account') }}">Your account</a>
-            </div>
-        {% else %}
-            <div class="actions">
-                <a class="btn" href="{{ url_for('login') }}">Login</a>
-                <a class="btn" href="{{ url_for('register') }}">Register</a>
-            </div>
-            <p class="tip muted">Login or register to upload and download files.</p>
-        {% endif %}
-
         {% if files %}
             <ul class="file-list">
                 {% for file in files %}
@@ -36,16 +21,17 @@
 
                     {% if logged_in %}
                         {% if file['is_private'] %}
-                            <form action="{{ url_for('download_protected', file_id=file['id']) }}" method="post">
+                            <form action="{{ url_for('download_protected', file_id=file['id']) }}" method="post" style="display:inline;">
                                 <input type="password" name="password" placeholder="Enter password" required>
-                                <button class="download-btn" type="submit">Unlock</button>
+                                <button class="download-btn" type="submit">Unlock & Download</button>
                             </form>
                         {% else %}
                             <a class="download-btn" href="{{ file['download_url'] }}" target="_blank">Download</a>
                         {% endif %}
+
                         <div class="rating">
                             ⭐ {{ file['rating'] }}
-                            <form action="{{ url_for('rate', file_id=file['id']) }}" method="post">
+                            <form action="{{ url_for('rate', file_id=file['id']) }}" method="post" style="display:inline;">
                                 <button class="rate-btn" type="submit">+1</button>
                             </form>
                         </div>
@@ -61,4 +47,5 @@
     </div>
 </body>
 </html>
+
 
