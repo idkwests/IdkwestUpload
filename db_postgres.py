@@ -15,7 +15,6 @@ def get_db_connection():
 def init_db():
     with get_db_connection() as conn:
         c = conn.cursor()
-        # Create users table
         c.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -23,7 +22,6 @@ def init_db():
                 password_hash TEXT NOT NULL
             )
         ''')
-        # Create files table with new privacy fields
         c.execute('''
             CREATE TABLE IF NOT EXISTS files (
                 id SERIAL PRIMARY KEY,
