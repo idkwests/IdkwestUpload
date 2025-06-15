@@ -157,9 +157,10 @@ def download(file_id):
             return redirect(file['download_url'])
         else:
             flash("Incorrect password.")
-            return render_template('enter_password.html', file_id=file_id)
+            return render_template('password_prompt.html', file=file)
 
-    return render_template('enter_password.html', file_id=file_id)
+    return render_template('password_prompt.html', file=file)
+
 
 @app.context_processor
 def inject_user():
