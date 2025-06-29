@@ -34,7 +34,7 @@ def login_required(f):
 
 @app.route('/')
 def index():
-    files = db.get_all_files()  # ✅ FIXED function call
+    files = db.get_all_files()
     return render_template('index.html', files=files)
 
 @app.route('/register', methods=['GET', 'POST'])
