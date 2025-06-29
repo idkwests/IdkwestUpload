@@ -9,6 +9,7 @@
     --radius: 10px;
     --shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
     --transition: 0.3s ease;
+    --focus-ring: 0 0 0 3px rgba(0, 188, 212, 0.4);
 }
 
 body {
@@ -19,10 +20,11 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    min-height: 100vh;
     align-items: center;
     text-align: center;
-    animation: fadeIn 1s ease-in;
+    min-height: 100vh;
+    animation: fadeIn 0.8s ease-in-out;
+    line-height: 1.6;
 }
 
 .container {
@@ -32,6 +34,11 @@ body {
     padding: 40px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    transition: box-shadow var(--transition);
+}
+
+.container:hover {
+    box-shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
 }
 
 h1 {
@@ -44,25 +51,37 @@ h1 {
 .actions {
     display: flex;
     justify-content: center;
-    gap: 12px;
     flex-wrap: wrap;
+    gap: 14px;
     margin-bottom: 25px;
 }
 
-.btn {
-    background: var(--primary);
+.btn, .download-btn, .rate-btn {
+    background: linear-gradient(to right, var(--primary), var(--hover));
     color: var(--dark);
     font-weight: bold;
     padding: 10px 18px;
     border-radius: 6px;
     text-decoration: none;
-    transition: all var(--transition);
     display: inline-block;
+    transition: all var(--transition);
+    cursor: pointer;
+    border: none;
+    outline: none;
 }
 
-.btn:hover {
-    background: var(--hover);
-    transform: scale(1.05);
+.btn:hover,
+.download-btn:hover,
+.rate-btn:hover {
+    transform: scale(1.06);
+    filter: brightness(1.1);
+}
+
+.btn:focus,
+.download-btn:focus,
+.rate-btn:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
 }
 
 ul.file-list {
@@ -78,22 +97,25 @@ ul.file-list {
     border-radius: var(--radius);
     max-width: 600px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    transition: transform var(--transition);
+    transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .file-item:hover {
     transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 .file-header h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: var(--primary);
+    text-shadow: 0 1px 8px rgba(0, 188, 212, 0.15);
 }
 
 .desc {
     margin-top: 6px;
-    font-size: 0.95rem;
+    font-size: 0.96rem;
+    color: var(--text);
 }
 
 .uploader {
@@ -103,20 +125,8 @@ ul.file-list {
 }
 
 .download-btn {
-    display: inline-block;
     margin-top: 16px;
-    padding: 10px 16px;
-    background: var(--primary);
-    color: var(--dark);
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background var(--transition), transform var(--transition);
-}
-
-.download-btn:hover {
-    background: var(--hover);
-    transform: scale(1.05);
+    font-size: 1rem;
 }
 
 .rating {
@@ -125,21 +135,16 @@ ul.file-list {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .rate-btn {
-    padding: 6px 12px;
+    font-size: 0.95rem;
+    padding: 8px 14px;
     background: var(--hover);
-    border: none;
     color: var(--dark);
-    font-weight: bold;
     border-radius: 6px;
-    cursor: pointer;
-    transition: transform var(--transition);
-}
-
-.rate-btn:hover {
-    transform: scale(1.1);
+    font-weight: 600;
 }
 
 .muted {
@@ -147,11 +152,11 @@ ul.file-list {
     font-size: 0.95rem;
 }
 
-/* some anims ig */
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(16px);
     }
     to {
         opacity: 1;
@@ -159,3 +164,19 @@ ul.file-list {
     }
 }
 
+/* bob new css ty andme */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .file-item {
+        padding: 18px;
+    }
+
+    .btn, .download-btn, .rate-btn {
+        width: 100%;
+        padding: 10px 14px;
+        text-align: center;
+    }
+}
